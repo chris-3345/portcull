@@ -6,6 +6,7 @@ use sysinfo::{Pid, System};
 
 #[derive(Parser, Debug)]
 struct Args {
+    #[arg(required = true)]
     ports: Vec<u16>,
 }
 
@@ -13,24 +14,31 @@ struct Args {
 fn run_unix(args: &Args) -> Vec<String> {
     let mut pids = HashSet::new();
 
-    for port in &args.ports {
-        let port_arg = format!("-iTCP:{}", port);
+    // map [3000, 8080] into "3000,8080"
+    let ports_string = args
+        .ports
+        .iter()
+        .map(|p| p.to_string())
+        .collect::<Vec<String>>()
+        .join(",");
 
-        let output = Command::new("lsof")
-            .args(["-t", &port_arg, "-sTCP:LISTEN"])
-            .output()
-            .unwrap_or_else(|err| {
-                panic!("Failed to execute lsof for port {}: {}", port, err);
-            });
+    let port_arg = format!("-iTCP:{}", ports_string);
 
-        let stdout = String::from_utf8_lossy(&output.stdout);
+    // run lsof exactly once for all ports
+    let output = Command::new("lsof")
+        .args(["-t", &port_arg, "-sTCP:LISTEN"])
+        .output()
+        .unwrap_or_else(|err| {
+            panic!("Failed to execute lsof for ports {}: {}", ports_string, err);
+        });
 
-        for line in stdout.lines() {
-            let pid = line.trim();
+    let stdout = String::from_utf8_lossy(&output.stdout);
 
-            if !pid.is_empty() && pid.chars().all(|c| c.is_ascii_digit()) {
-                pids.insert(pid.to_string());
-            }
+    for line in stdout.lines() {
+        let pid = line.trim();
+
+        if !pid.is_empty() && pid.chars().all(|c| c.is_ascii_digit()) {
+            pids.insert(pid.to_string());
         }
     }
 
@@ -41,6 +49,8 @@ fn run_unix(args: &Args) -> Vec<String> {
 fn run_windows(args: &Args) -> Vec<String> {
     let mut pids = HashSet::new();
 
+    let target_ports: HashSet<u16> = args.ports.iter().cloned().collect();
+
     let output = Command::new("netstat")
         .arg("-ano")
         .output()
@@ -48,21 +58,24 @@ fn run_windows(args: &Args) -> Vec<String> {
 
     let stdout = String::from_utf8_lossy(&output.stdout);
 
-    for &port in &args.ports {
-        let target_port_suffix = format!(":{}", port);
+    for line in stdout.lines() {
+        let columns: Vec<&str> = line.split_whitespace().collect();
 
-        for line in stdout.lines() {
-            let columns: Vec<&str> = line.split_whitespace().collect();
+        // check if it's a valid connection
+        if columns.len() >= 4 {
+            let local_addr = columns[1];
+            let pid = columns[columns.len() - 1]; // always the last column
 
-            // Check if it's a valid connection row
-            if columns.len() >= 4 {
-                let local_addr = columns[1];
-                let pid = columns[columns.len() - 1]; // Always the last column
+            // extract the port by finding the last colon in the addr
+            if let Some(pos) = local_addr.rfind(':') {
+                let port_str = &local_addr[pos + 1..];
 
-                // Fix the comma to a dot here
-                if local_addr.ends_with(&target_port_suffix) {
-                    if pid.chars().all(|c| c.is_ascii_digit()) {
-                        pids.insert(pid.to_string());
+                if let Ok(parsed_port) = port_str.parse::<u16>() {
+                    // check if it's what the user wanted
+                    if target_ports.contains(&parsed_port) {
+                        if pid.chars().all(|c| c.is_ascii_digit()) {
+                            pids.insert(pid.to_string());
+                        }
                     }
                 }
             }
@@ -146,11 +159,6 @@ fn kill_pids(pids: &[String]) {
 
 fn main() {
     let args = Args::parse();
-
-    if args.ports.is_empty() {
-        println!("No ports provided! Usage: portk [PORTS]");
-        return;
-    }
 
     #[cfg(target_os = "windows")]
     let proc_ids = run_windows(&args);
