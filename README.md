@@ -22,7 +22,7 @@ cd portcull
 cargo install --path .
 ```
 
-For the above to work, make sure ~/.cargo/bin is in your PATH.
+For the above to work, make sure ~/.cargo/bin is in your PATH. If the command worked, then it probably is on your PATH, so this note was a bit unnecessary actually. Oh well.
 
 ## OS Support/How it works
 `portcull` is cross-platform and uses native system commands to find PIDs. On Linux/macOS, it uses lsof. On Windows, it uses netstat.
