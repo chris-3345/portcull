@@ -22,6 +22,11 @@ PID: 27656 | Name: node.exe
 (you can run it with as many ports as you want and it'll attempt to kill processes associated with all of them)
 
 ## Installation
+### Quick Setup
+Go to our releases page, download the correct release for your architecture and OS, rename it to `portcull`, and put it somewhere that's in your $PATH!
+(note that if the release is very recent, our GitHub Action may still be running, so you may need to wait)
+
+### Manual
 Clone the repo and install via `cargo`:
 ```bash
 git clone https://github.com/chris-3345/portcull.git
