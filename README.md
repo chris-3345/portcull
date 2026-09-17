@@ -21,6 +21,21 @@ PID: 27656 | Name: node.exe
 ```
 (you can run it with as many ports as you want and it'll attempt to kill processes associated with all of them)
 
+Current --help/-h output:
+```bash
+Usage: portcull.exe [OPTIONS] <PORTS>...
+
+Arguments:
+  <PORTS>...  The ports to kill or query
+
+Options:
+      --query              Display active processes on the port(s) without killing
+  -q, --quiet              Run without confirmation prompt
+  -g, --graceful           Use SIGTERM instead of SIGKILL (more graceful exit; defaults to SIGKILL)
+      --timeout <TIMEOUT>  Override default timeout for graceful exit (will then fall back to SIGKILL - default timeout is 3s)
+  -h, --help               Print help
+```
+
 ## Installation
 ### Quick Setup
 Go to our releases page, download the correct release for your architecture and OS, rename it to `portcull`, and put it somewhere that's in your $PATH!
