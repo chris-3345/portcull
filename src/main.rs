@@ -1,186 +1,22 @@
+mod args;
+mod port_lookup;
+mod processes;
+
+use args::Args;
 use clap::Parser;
-use std::collections::HashSet;
-use std::io::{self, Write};
-use std::process::Command;
-use sysinfo::{Pid, System};
-
-#[derive(Parser, Debug)]
-struct Args {
-    /// The ports to kill
-    #[arg(required = true)]
-    ports: Vec<u16>,
-
-    /// Display active processes on the port(s) without killing
-    #[arg(long)]
-    query: bool,
-
-    /// Run without confirmation prompt
-    #[arg(long, short)]
-    quiet: bool,
-}
-
-#[cfg(any(target_os = "linux", target_os = "macos"))]
-fn run_unix(args: &Args) -> Vec<String> {
-    let mut pids = HashSet::new();
-
-    // map [3000, 8080] into "3000,8080"
-    let ports_string = args
-        .ports
-        .iter()
-        .map(|p| p.to_string())
-        .collect::<Vec<String>>()
-        .join(",");
-
-    let port_arg = format!("-iTCP:{}", ports_string);
-
-    // run lsof exactly once for all ports
-    let output = Command::new("lsof")
-        .args(["-t", &port_arg, "-sTCP:LISTEN"])
-        .output()
-        .unwrap_or_else(|err| {
-            panic!("Failed to execute lsof for ports {}: {}", ports_string, err);
-        });
-
-    let stdout = String::from_utf8_lossy(&output.stdout);
-
-    for line in stdout.lines() {
-        let pid = line.trim();
-
-        if !pid.is_empty() && pid.chars().all(|c| c.is_ascii_digit()) {
-            pids.insert(pid.to_string());
-        }
-    }
-
-    pids.into_iter().collect()
-}
-
-#[cfg(target_os = "windows")]
-fn run_windows(args: &Args) -> Vec<String> {
-    let mut pids = HashSet::new();
-
-    let target_ports: HashSet<u16> = args.ports.iter().cloned().collect();
-
-    let output = Command::new("netstat")
-        .arg("-ano")
-        .output()
-        .expect("Failed to execute netstat");
-
-    let stdout = String::from_utf8_lossy(&output.stdout);
-
-    for line in stdout.lines() {
-        let columns: Vec<&str> = line.split_whitespace().collect();
-
-        // check if it's a valid connection
-        if columns.len() >= 4 {
-            let local_addr = columns[1];
-            let pid = columns[columns.len() - 1]; // always the last column
-
-            // extract the port by finding the last colon in the addr
-            if let Some(pos) = local_addr.rfind(':') {
-                let port_str = &local_addr[pos + 1..];
-
-                if let Ok(parsed_port) = port_str.parse::<u16>() {
-                    // check if it's what the user wanted
-                    if target_ports.contains(&parsed_port) {
-                        if pid.chars().all(|c| c.is_ascii_digit()) {
-                            pids.insert(pid.to_string());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    pids.into_iter().collect()
-}
-
-fn get_process_names(pids: &[String]) -> Vec<String> {
-    let mut sys = System::new();
-    let mut process_names: Vec<String> = Vec::new();
-
-    for pid_str in pids {
-        if let Ok(pid_num) = pid_str.parse::<usize>() {
-            let pid = Pid::from(pid_num);
-
-            sys.refresh_processes(sysinfo::ProcessesToUpdate::Some(&[pid]), true);
-
-            if let Some(proc) = sys.process(pid) {
-                process_names.push(proc.name().to_string_lossy().into_owned());
-            } else {
-                process_names.push(format!("Unknown Process"));
-            }
-        } else {
-            process_names.push(format!("Invalid PID"));
-        }
-    }
-
-    process_names
-}
-
-fn kill_pids(pids: &[String], process_names: &[String], args: &Args) {
-    if process_names
-        .iter()
-        .any(|name| name.to_lowercase().contains("ollama"))
-    {
-        println!("Ollama was detected in your list of processes to kill.");
-        println!("Killing Ollama will NOT work because it will start the server again.");
-        println!("Will try to kill Ollama anyway, but it is probably going to fail.\n");
-    }
-
-    let mut confirmation_prompt = String::new();
-
-    if !args.quiet {
-        print!(
-            "Are you sure you want to kill these processes: {:?}? (y/N): ",
-            process_names
-        );
-
-        io::stdout().flush().expect("Failed to flush stdout");
-
-        io::stdin()
-            .read_line(&mut confirmation_prompt)
-            .expect("Failed to read input");
-
-        if confirmation_prompt.trim().to_lowercase() != "y" {
-            println!("Canceled.");
-            return;
-        }
-    }
-
-    let mut sys = System::new(); // Re-init to get fresh state before killing
-    println!("Killing processes!");
-
-    for pid_str in pids {
-        if let Ok(pid_num) = pid_str.parse::<usize>() {
-            let pid = Pid::from(pid_num);
-            sys.refresh_processes(sysinfo::ProcessesToUpdate::Some(&[pid]), true);
-
-            if let Some(proc) = sys.process(pid) {
-                if proc.kill() {
-                    println!("Killed PID {} ({})", pid_str, proc.name().to_string_lossy());
-                } else {
-                    println!("Failed to kill PID {} (Permission denied?)", pid_str);
-                }
-            } else {
-                println!("PID {} closed on its own...", pid_str);
-            }
-        }
-    }
-}
+use port_lookup::find_pids;
+use processes::{get_process_names, kill_pids};
 
 fn main() {
     let args = Args::parse();
 
-    #[cfg(target_os = "windows")]
-    let proc_ids = run_windows(&args);
-
-    #[cfg(any(target_os = "linux", target_os = "macos"))]
-    let proc_ids = run_unix(&args);
+    let proc_ids = find_pids(&args);
 
     if proc_ids.is_empty() {
         println!("No active processes found on provided ports; exiting.");
         return;
     }
+
     let process_names = get_process_names(&proc_ids);
 
     if args.query {
