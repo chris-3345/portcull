@@ -1,10 +1,13 @@
 use crate::args::Args;
 use std::collections::HashSet;
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+use std::io;
 use std::process::Command;
 
 // ----------- Platform dispatch -----------
 
-pub(crate) fn find_pids(args: &Args) -> Vec<String> {
+// Returns an error message (instead of panicking, which aborts the process) if the lookup tool can't be run
+pub(crate) fn find_pids(args: &Args) -> Result<Vec<String>, String> {
     #[cfg(target_os = "windows")]
     {
         run_windows(args)
@@ -19,7 +22,7 @@ pub(crate) fn find_pids(args: &Args) -> Vec<String> {
 // ----------- Linux / macOS -----------
 
 #[cfg(any(target_os = "linux", target_os = "macos"))]
-fn run_unix(args: &Args) -> Vec<String> {
+fn run_unix(args: &Args) -> Result<Vec<String>, String> {
     let mut pids = HashSet::new();
 
     // map [3000, 8080] into "3000,8080"
@@ -36,9 +39,7 @@ fn run_unix(args: &Args) -> Vec<String> {
     let output = Command::new("lsof")
         .args(["-t", &port_arg, "-sTCP:LISTEN"])
         .output()
-        .unwrap_or_else(|err| {
-            panic!("Failed to execute lsof for ports {}: {}", ports_string, err);
-        });
+        .map_err(|err| lsof_error_message(&err, &ports_string))?;
 
     let stdout = String::from_utf8_lossy(&output.stdout);
 
@@ -50,25 +51,38 @@ fn run_unix(args: &Args) -> Vec<String> {
         }
     }
 
-    pids.into_iter().collect()
+    Ok(pids.into_iter().collect())
+}
+
+// lsof isn't installed by default on many minimal distros and containers,
+// so tell the user how to fix it rather than just reporting the raw OS error
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+fn lsof_error_message(err: &io::Error, ports_string: &str) -> String {
+    if err.kind() == io::ErrorKind::NotFound {
+        "lsof was not found, but portcull needs it to look up ports on Linux/macOS. \
+         Install it with your package manager (e.g. `apt install lsof`, `dnf install lsof` or `apk add lsof`) and try again."
+            .to_string()
+    } else {
+        format!("Failed to execute lsof for ports {}: {}", ports_string, err)
+    }
 }
 
 // ----------- Windows -----------
 
 #[cfg(target_os = "windows")]
-fn run_windows(args: &Args) -> Vec<String> {
+fn run_windows(args: &Args) -> Result<Vec<String>, String> {
     let target_ports: HashSet<u16> = args.ports.iter().cloned().collect();
 
     let output = Command::new("netstat")
         .arg("-ano")
         .output()
-        .expect("Failed to execute netstat");
+        .map_err(|err| format!("Failed to execute netstat: {}", err))?;
 
     let stdout = String::from_utf8_lossy(&output.stdout);
 
-    parse_netstat_listeners(&stdout, &target_ports)
+    Ok(parse_netstat_listeners(&stdout, &target_ports)
         .into_iter()
-        .collect()
+        .collect())
 }
 
 // Split out from run_windows (and also compiled for tests) so the parsing can be unit tested on any OS
@@ -178,5 +192,24 @@ Active Connections
     fn netstat_ignores_client_side_of_connection() {
         // PID 2222 only has an outbound connection *to* 3000, it doesn't listen on 52000
         assert_eq!(pids_for(&[3000, 52000]), vec!["1111"]);
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
+    #[test]
+    fn missing_lsof_gives_install_hint() {
+        let message = lsof_error_message(&io::Error::from(io::ErrorKind::NotFound), "3000");
+        assert!(message.contains("lsof was not found"));
+        assert!(message.contains("install lsof"));
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
+    #[test]
+    fn other_lsof_errors_include_ports_and_cause() {
+        let message = lsof_error_message(
+            &io::Error::from(io::ErrorKind::PermissionDenied),
+            "3000,8080",
+        );
+        assert!(message.contains("3000,8080"));
+        assert!(!message.contains("not found"));
     }
 }
