@@ -1,0 +1,28 @@
+name: Third-Party Notices
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check-credits:
+    name: Check CREDITS.txt is up to date
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      # pinned so the generated output doesn't change underneath us between cargo-about releases
+      - name: Install cargo-about
+        run: cargo install cargo-about --locked --features cli --version 0.9.2
+
+      - name: Regenerate CREDITS.txt
+        run: cargo about generate about.hbs -o CREDITS.txt
+
+      - name: Fail if CREDITS.txt is stale
+        run: git diff --exit-code CREDITS.txt

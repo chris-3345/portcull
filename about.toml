@@ -1,0 +1,17 @@
+# cargo-about configuration for generating CREDITS.txt (third-party license notices).
+# Regenerate with: cargo about generate about.hbs -o CREDITS.txt
+
+# Licenses we accept, in order of preference. For dual/multi-licensed crates
+# (e.g. "MIT OR Apache-2.0") cargo-about picks the first match, so MIT is
+# preferred, as described in CONTRIBUTING.md.
+accepted = ["MIT", "Apache-2.0", "Unicode-3.0", "Zlib", "Unlicense"]
+
+# Targets we ship release binaries for (see .github/workflows/release-binaries.yml),
+# so platform-specific dependencies (e.g. windows-* crates) are included.
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "aarch64-unknown-linux-gnu",
+    "aarch64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+    "aarch64-pc-windows-msvc",
+]
