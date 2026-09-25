@@ -2,6 +2,10 @@
 
 Thanks for helping improve `portcull`. This project should stay small, predictable, and easy to audit.
 
+## AI Usage
+Let's get this out of the way first. I use AI for commits occasionally (which is why you can see Claude in the contributors), and you can as well; I'm not hypocritical.  
+If you are going to use AI for a commit, make sure it's tested and that you disclose your usage :)
+
 ## Project priorities
 
 `portcull` should remain lightweight and cross-platform. Prefer clear Rust, explicit platform handling, and simple behavior over clever abstractions. If a change makes the tool harder to understand, harder to build, or harder to audit, it needs a very good reason.
