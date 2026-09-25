@@ -36,6 +36,18 @@ Options:
   -h, --help               Print help
 ```
 
+## Exit Codes
+`portcull` exits with a nonzero status when it didn't do what you asked, so `portcull -q` can be used in scripts:
+
+| Code | Meaning |
+|------|---------|
+| 0 | Success (processes were killed, or `--query` found processes) |
+| 1 | No processes found on the provided ports |
+| 2 | Invalid arguments |
+| 3 | Canceled at the confirmation prompt |
+| 4 | One or more processes could not be killed |
+| 5 | Port lookup failed (e.g. `lsof` is not installed) |
+
 ## Installation
 ### Quick Setup
 Go to our releases page, download the correct release for your architecture and OS, rename it to `portcull`, and put it somewhere that's in your $PATH!

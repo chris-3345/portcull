@@ -7,6 +7,17 @@ use sysinfo::{Pid, Signal, System};
 const DEFAULT_GRACEFUL_TIMEOUT_SECONDS: u64 = 3;
 const PROCESS_CHECK_INTERVAL_MS: u64 = 100;
 
+// Result of kill_pids, mapped to an exit code in main
+#[derive(Debug, PartialEq)]
+pub(crate) enum KillOutcome {
+    // every process was killed (or had already exited)
+    Killed,
+    // the user declined the confirmation prompt
+    Cancelled,
+    // at least one process could not be killed
+    Failed,
+}
+
 // ----------- Process information -----------
 
 pub(crate) fn get_process_names(pids: &[String]) -> Vec<String> {
@@ -34,23 +45,33 @@ pub(crate) fn get_process_names(pids: &[String]) -> Vec<String> {
 
 // ----------- Force killing -----------
 
-fn sigkill_pid(sys: &System, pid: Pid) {
+// Returns false only if the kill failed (a process that already exited counts as success)
+fn sigkill_pid(sys: &System, pid: Pid) -> bool {
     if let Some(proc) = sys.process(pid) {
         let process_name = proc.name().to_string_lossy();
 
         if proc.kill() {
             println!("Force killed PID {} ({})", pid, process_name);
+            true
         } else {
             println!("Failed to force kill PID {} ({})", pid, process_name);
+            false
         }
     } else {
         println!("PID {} closed on its own...", pid);
+        true
     }
 }
 
 // ----------- Graceful killing -----------
 
-fn wait_for_graceful_exit(sys: &mut System, pid: Pid, process_name: &str, timeout_seconds: u64) {
+// Returns false only if the fallback SIGKILL failed
+fn wait_for_graceful_exit(
+    sys: &mut System,
+    pid: Pid,
+    process_name: &str,
+    timeout_seconds: u64,
+) -> bool {
     let timeout = Duration::from_secs(timeout_seconds);
     let start = Instant::now();
 
@@ -59,7 +80,7 @@ fn wait_for_graceful_exit(sys: &mut System, pid: Pid, process_name: &str, timeou
 
         if sys.process(pid).is_none() {
             println!("PID {} ({}) exited gracefully.", pid, process_name);
-            return;
+            return true;
         }
 
         if start.elapsed() >= timeout {
@@ -68,8 +89,7 @@ fn wait_for_graceful_exit(sys: &mut System, pid: Pid, process_name: &str, timeou
                 pid, process_name, timeout_seconds
             );
 
-            sigkill_pid(sys, pid);
-            return;
+            return sigkill_pid(sys, pid);
         }
 
         thread::sleep(Duration::from_millis(PROCESS_CHECK_INTERVAL_MS));
@@ -78,7 +98,7 @@ fn wait_for_graceful_exit(sys: &mut System, pid: Pid, process_name: &str, timeou
 
 // ----------- Main kill logic -----------
 
-pub(crate) fn kill_pids(pids: &[String], process_names: &[String], args: &Args) {
+pub(crate) fn kill_pids(pids: &[String], process_names: &[String], args: &Args) -> KillOutcome {
     if process_names
         .iter()
         .any(|name| name.to_lowercase().contains("ollama"))
@@ -104,12 +124,14 @@ pub(crate) fn kill_pids(pids: &[String], process_names: &[String], args: &Args) 
 
         if confirmation_prompt.trim().to_lowercase() != "y" {
             println!("Canceled.");
-            return;
+            return KillOutcome::Cancelled;
         }
     }
 
     let mut sys = System::new(); // Re-init to get fresh state before killing
     println!("Killing processes!");
+
+    let mut all_killed = true;
 
     for (pid_str, process_name) in pids.iter().zip(process_names.iter()) {
         if let Ok(pid_num) = pid_str.parse::<usize>() {
@@ -126,7 +148,12 @@ pub(crate) fn kill_pids(pids: &[String], process_names: &[String], args: &Args) 
                             let timeout_seconds =
                                 args.timeout.unwrap_or(DEFAULT_GRACEFUL_TIMEOUT_SECONDS);
 
-                            wait_for_graceful_exit(&mut sys, pid, process_name, timeout_seconds);
+                            all_killed &= wait_for_graceful_exit(
+                                &mut sys,
+                                pid,
+                                process_name,
+                                timeout_seconds,
+                            );
                         }
 
                         Some(false) => {
@@ -135,7 +162,7 @@ pub(crate) fn kill_pids(pids: &[String], process_names: &[String], args: &Args) 
                                 pid, process_name
                             );
 
-                            sigkill_pid(&sys, pid);
+                            all_killed &= sigkill_pid(&sys, pid);
                         }
 
                         None => {
@@ -144,15 +171,73 @@ pub(crate) fn kill_pids(pids: &[String], process_names: &[String], args: &Args) 
                                 pid
                             );
 
-                            sigkill_pid(&sys, pid);
+                            all_killed &= sigkill_pid(&sys, pid);
                         }
                     }
                 } else {
-                    sigkill_pid(&sys, pid);
+                    all_killed &= sigkill_pid(&sys, pid);
                 }
             } else {
                 println!("PID {} closed on its own...", pid);
             }
         }
+    }
+
+    if all_killed {
+        KillOutcome::Killed
+    } else {
+        KillOutcome::Failed
+    }
+}
+
+#[cfg(all(test, unix))]
+mod tests {
+    use super::*;
+    use clap::Parser;
+    use std::process::Command;
+
+    // spawn a throwaway process and reap it in the background, so it disappears
+    // from the process table once killed instead of lingering as a zombie
+    fn spawn_sleeper() -> (String, thread::JoinHandle<()>) {
+        let mut child = Command::new("sleep").arg("30").spawn().unwrap();
+        let pid = child.id().to_string();
+        let reaper = thread::spawn(move || {
+            child.wait().unwrap();
+        });
+        (pid, reaper)
+    }
+
+    #[test]
+    fn kill_reports_killed() {
+        let (pid, reaper) = spawn_sleeper();
+        let args = Args::parse_from(["portcull", "-q", "1"]);
+
+        let outcome = kill_pids(&[pid], &["sleep".to_string()], &args);
+
+        assert_eq!(outcome, KillOutcome::Killed);
+        reaper.join().unwrap();
+    }
+
+    #[test]
+    fn graceful_kill_reports_killed() {
+        let (pid, reaper) = spawn_sleeper();
+        let args = Args::parse_from(["portcull", "-q", "-g", "1"]);
+
+        let outcome = kill_pids(&[pid], &["sleep".to_string()], &args);
+
+        assert_eq!(outcome, KillOutcome::Killed);
+        reaper.join().unwrap();
+    }
+
+    #[test]
+    fn already_exited_process_counts_as_killed() {
+        let mut child = Command::new("true").spawn().unwrap();
+        let pid = child.id().to_string();
+        child.wait().unwrap();
+        let args = Args::parse_from(["portcull", "-q", "1"]);
+
+        let outcome = kill_pids(&[pid], &["true".to_string()], &args);
+
+        assert_eq!(outcome, KillOutcome::Killed);
     }
 }
