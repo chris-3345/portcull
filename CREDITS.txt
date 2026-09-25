@@ -420,7 +420,7 @@ MIT License
 ================================================================================
 
 Used by:
-  - portcull 0.2.0
+  - portcull 0.3.0
 
 The MIT License (MIT)
 Copyright © 2026 chris-3345
