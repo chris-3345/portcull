@@ -22,10 +22,10 @@ pub(crate) fn get_process_names(pids: &[String]) -> Vec<String> {
             if let Some(proc) = sys.process(pid) {
                 process_names.push(proc.name().to_string_lossy().into_owned());
             } else {
-                process_names.push(format!("Unknown Process"));
+                process_names.push("Unknown Process".to_string());
             }
         } else {
-            process_names.push(format!("Invalid PID"));
+            process_names.push("Invalid PID".to_string());
         }
     }
 
