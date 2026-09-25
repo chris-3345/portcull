@@ -23,18 +23,31 @@ PID: 27656 | Name: node.exe
 
 Current --help/-h output:
 ```bash
-Usage: portcull.exe [OPTIONS] <PORTS>...
+Usage: portcull.exe [OPTIONS] [PORTS]...
 
 Arguments:
-  <PORTS>...  The ports to kill or query
+  [PORTS]...  The ports to kill or query
 
 Options:
       --query              Display active processes on the port(s) without killing
   -q, --quiet              Run without confirmation prompt
   -g, --graceful           Use SIGTERM instead of SIGKILL (more graceful exit; defaults to SIGKILL)
       --timeout <TIMEOUT>  Override default timeout for graceful exit (will then fall back to SIGKILL - default timeout is 3s)
+      --licenses           Print third-party license notices and exit
   -h, --help               Print help
 ```
+
+## Exit Codes
+`portcull` exits with a nonzero status when it didn't do what you asked, so `portcull -q` can be used in scripts:
+
+| Code | Meaning |
+|------|---------|
+| 0 | Success (processes were killed, or `--query` found processes) |
+| 1 | No processes found on the provided ports |
+| 2 | Invalid arguments |
+| 3 | Canceled at the confirmation prompt |
+| 4 | One or more processes could not be killed |
+| 5 | Port lookup failed (e.g. `lsof` is not installed) |
 
 ## Installation
 ### Quick Setup
@@ -61,3 +74,5 @@ If `portcull` detects you are trying to kill `ollama`, it remins you that Ollama
 
 ## License
 [MIT License](LICENSE)
+
+Third-party license notices for the crates `portcull` depends on are in [CREDITS.txt](CREDITS.txt), and are embedded in the binary (run `portcull --licenses` to print them).

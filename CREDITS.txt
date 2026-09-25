@@ -1,543 +1,102 @@
-THIRD-PARTY NOTICES
-Generated: 2026-07-03
-Project: portk 0.1.0
-Scope: Rust crates in the uploaded Cargo.lock, excluding this project's own package.
-
-This version includes a copyright-year addendum. Where upstream stated a year,
-the year is included. Where upstream did not state a year, this file says so
-instead of inventing one.
-
-LICENSE ELECTION ADDENDUM
-===============================================================================
-
-Purpose
--------
-This addendum documents the distributor's chosen license path for third-party
-crates that are offered under a dual-license or multi-license choice.
-
-Default election
-----------------
-For crates whose upstream license expression permits the MIT License as one
-available option, the distributor elects to use the MIT License for
-redistribution and compliance purposes.
-
-Reason for this election
-------------------------
-MIT is the lowest-administration path for this dependency set. Its practical
-redistribution obligation is to preserve the applicable copyright notice and
-permission notice. Apache-2.0 is also permissive, but it brings additional
-compliance machinery, especially patent-license terms and NOTICE-file handling
-when upstream NOTICE content exists. For "least headache if something happens,"
-MIT is the cleaner election when upstream permits it.
-
-For crates licensed as Unlicense OR MIT, the distributor elects MIT. The
-Unlicense is permissive, but MIT is more conventional and avoids public-domain
-interpretation arguments in jurisdictions where public-domain dedication can be
-messier.
-
-For crates licensed as MIT OR Apache-2.0 OR Zlib, the distributor elects MIT.
-
-This election does not relicense the upstream projects, remove upstream notices,
-or erase the fact that upstream offers other license paths. It only records the
-license path chosen by this distributor. Where an upstream expression uses AND,
-every required license remains required.
-
-Election summary
-----------------
-- MIT OR Apache-2.0: elect MIT.
-- Apache-2.0 OR MIT: elect MIT.
-- MIT/Apache-2.0: treat as MIT OR Apache-2.0 and elect MIT.
-- Unlicense OR MIT: elect MIT.
-- MIT OR Apache-2.0 OR Zlib: elect MIT.
-- MIT: no election needed; use MIT.
-- (MIT OR Apache-2.0) AND Unicode-3.0: elect MIT for the OR branch and also comply with Unicode-3.0. Effective selected basis: MIT AND Unicode-3.0.
-
-
-COPYRIGHT NOTICE ADDENDUM
-===============================================================================
-
-Purpose
--------
-This addendum records the copyright notices and years, where upstream provided
-them, for the third-party crates in the uploaded Cargo.lock. The rule used here
-is conservative: preserve the upstream notice exactly when known; do not invent
-a year, holder, or copyright symbol when the upstream package did not state one.
-
-Important nitpick
------------------
-Some Rust crates use MIT license files that say only "Copyright (c) Individual
-contributors" or even omit the copyright line entirely. That is upstream's
-notice. Replacing it with guessed years or guessed names would create a fake
-notice, which is worse for an audit than explicitly saying "no year stated".
-
-1. clap / clap-rs
------------------
-Crates: clap 4.6.1; clap_builder 4.6.0; clap_derive 4.6.1; clap_lex 1.1.0
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/clap-rs/clap
-Copyright notice to preserve:
-  Copyright (c) Individual contributors
-Year status: No year stated in the upstream LICENSE-MIT file; preserve the upstream notice as written.
-Notes: crates.io ownership is by clap-rs / rust-cli maintainers depending on crate; notices are repo-level.
-
-2. rust-cli / anstyle terminal styling crates
----------------------------------------------
-Crates: anstream 1.0.0; anstyle 1.0.14; anstyle-parse 1.0.0; anstyle-query 1.1.5; anstyle-wincon 3.0.11; colorchoice 1.0.5
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/rust-cli/anstyle
-Copyright notice to preserve:
-  Copyright (c) Individual contributors
-Year status: No year stated in the upstream LICENSE-MIT files; preserve the upstream notice as written.
-Notes: Maintained/published in the rust-cli/anstyle workspace.
-
-3. polyfill-rs crates
----------------------
-Crates: is_terminal_polyfill 1.70.2; once_cell_polyfill 1.70.2
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/polyfill-rs/is_terminal_polyfill ; https://github.com/polyfill-rs/once_cell_polyfill
-Copyright notice to preserve:
-  Copyright (c) Individual contributors
-Year status: No year stated in the upstream LICENSE-MIT file checked for is_terminal_polyfill; once_cell_polyfill follows the same project licensing pattern. Preserve upstream notices as written.
-Notes: Polyfill crates used by terminal styling dependencies.
-
-4. utf8parse / Alacritty VTE parser
------------------------------------
-Crates: utf8parse 0.2.2
-Upstream license expression: Apache-2.0 OR MIT
-Selected license basis: MIT
-Repository: https://github.com/alacritty/vte
-Copyright notice to preserve:
-  Copyright (c) 2016 Joe Wilm
-Year status: Year stated: 2016.
-Notes: Repository-level LICENSE-MIT notice.
-
-5. windows-rs / Microsoft Windows bindings
-------------------------------------------
-Crates: windows 0.62.2; windows-collections 0.3.2; windows-core 0.62.2; windows-future 0.3.2; windows-implement 0.60.2; windows-interface 0.59.3; windows-link 0.2.1; windows-numerics 0.3.1; windows-result 0.4.1; windows-strings 0.5.1; windows-sys 0.61.2; windows-threading 0.2.1
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/microsoft/windows-rs
-Copyright notice to preserve:
-  Copyright (c) Microsoft Corporation.
-Year status: No year stated in the upstream license-mit file; preserve the upstream notice as written.
-Notes: Microsoft windows-rs crate family.
-
-6. dtolnay procedural macro crates
-----------------------------------
-Crates: proc-macro2 1.0.106; quote 1.0.46; syn 2.0.118
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/dtolnay/proc-macro2 ; https://github.com/dtolnay/quote ; https://github.com/dtolnay/syn
-Copyright notice to preserve:
-  No explicit copyright line is present in the upstream LICENSE-MIT files checked.
-Year status: No year stated; do not invent one.
-Notes: Authored/maintained by David Tolnay and contributors; upstream MIT files begin with the permission grant rather than a copyright line.
-
-7. unicode-ident
-----------------
-Crates: unicode-ident 1.0.24
-Upstream license expression: (MIT OR Apache-2.0) AND Unicode-3.0
-Selected license basis: MIT AND Unicode-3.0
-Repository: https://github.com/dtolnay/unicode-ident
-Copyright notice to preserve:
-  MIT branch: no explicit copyright line present in the upstream LICENSE-MIT file. Unicode branch: Copyright © 1991-2023 Unicode, Inc.
-Year status: MIT branch: no year stated. Unicode-3.0 branch: years stated: 1991-2023.
-Notes: Unicode-3.0 remains mandatory because the upstream expression uses AND.
-
-8. BurntSushi string-search crates
-----------------------------------
-Crates: aho-corasick 1.1.4; memchr 2.8.2
-Upstream license expression: Unlicense OR MIT
-Selected license basis: MIT
-Repository: https://github.com/BurntSushi/aho-corasick ; https://github.com/BurntSushi/memchr
-Copyright notice to preserve:
-  Copyright (c) 2015 Andrew Gallant
-Year status: Year stated: 2015.
-Notes: MIT elected instead of Unlicense for conventional compliance handling.
-
-9. bitflags
-------------
-Crates: bitflags 2.13.0
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/bitflags/bitflags
-Copyright notice to preserve:
-  Copyright (c) 2014 The Rust Project Developers
-Year status: Year stated: 2014.
-Notes: Target-specific dependency pulled in through platform crates.
-
-10. strsim / RapidFuzz string similarity crate
-----------------------------------------------
-Crates: strsim 0.11.1
-Upstream license expression: MIT
-Selected license basis: MIT
-Repository: https://github.com/rapidfuzz/strsim-rs
-Copyright notice to preserve:
-  Copyright (c) 2015 Danny Guo; Copyright (c) 2016 Titus Wormer; Copyright (c) 2018 Akash Kurdekar
-Year status: Years stated: 2015, 2016, 2018.
-Notes: Single-license MIT crate; no election needed.
-
-11. heck case-conversion crate
-------------------------------
-Crates: heck 0.5.0
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/withoutboats/heck
-Copyright notice to preserve:
-  Copyright (c) 2015 The Rust Project Developers
-Year status: Year stated: 2015.
-Notes: Used by clap_derive.
-
-12. sysinfo
------------
-Crates: sysinfo 0.39.5
-Upstream license expression: MIT
-Selected license basis: MIT
-Repository: https://github.com/GuillaumeGomez/sysinfo
-Copyright notice to preserve:
-  Copyright (c) 2015 Guillaume Gomez
-Year status: Year stated: 2015.
-Notes: Direct dependency in this project.
-
-13. libc / Rust raw platform bindings
--------------------------------------
-Crates: libc 0.2.186
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/rust-lang/libc
-Copyright notice to preserve:
-  Copyright (c) The Rust Project Developers
-Year status: No year stated in the upstream LICENSE-MIT file checked; preserve the upstream notice as written.
-Notes: Rust Project libc crate.
-
-14. ntapi
----------
-Crates: ntapi 0.4.3
-Upstream license expression: Apache-2.0 OR MIT
-Selected license basis: MIT
-Repository: https://github.com/MSxDOS/ntapi
-Copyright notice to preserve:
-  No explicit copyright line is present in the upstream LICENSE-MIT file checked.
-Year status: No year stated; do not invent one.
-Notes: Windows NT API bindings dependency.
-
-15. winapi and winapi GNU import crates
----------------------------------------
-Crates: winapi 0.3.9; winapi-i686-pc-windows-gnu 0.4.0; winapi-x86_64-pc-windows-gnu 0.4.0
-Upstream license expression: MIT/Apache-2.0
-Selected license basis: MIT
-Repository: https://github.com/retep998/winapi-rs
-Copyright notice to preserve:
-  Copyright (c) 2015-2018 The winapi-rs Developers
-Year status: Years stated: 2015-2018.
-Notes: Import crates are part of the winapi-rs ecosystem / target support path.
-
-16. objc2 / dispatch2 Apple framework binding crates
-----------------------------------------------------
-Crates: dispatch2 0.3.1; objc2 0.6.4; objc2-core-foundation 0.3.2; objc2-encode 4.1.0; objc2-foundation 0.3.2; objc2-io-kit 0.3.2; objc2-open-directory 0.3.2
-Upstream license expression: objc2, objc2-foundation, objc2-encode: MIT. dispatch2 and generated framework crates: MIT OR Apache-2.0 OR Zlib.
-Selected license basis: MIT
-Repository: https://github.com/madsmtm/objc2
-Copyright notice to preserve:
-  The v0.6.4 project LICENSE.md describes the applicable MIT / tri-license scheme but does not provide a crate-specific MIT copyright line in the packaged crate files checked.
-Year status: No exact year stated for the uploaded Cargo.lock versions in the checked package notices; do not invent one.
-Notes: These are target-specific Apple/Objective-C dependencies pulled in through sysinfo. The upstream license note also warns that the generated framework crates are derived from Apple SDKs, so practical use assumes Xcode SDK terms as applicable.
-
-
-COMPONENT NOTICES
-===============================================================================
-
-1. clap / clap-rs
-
-Crates:
-- clap 4.6.1
-- clap_builder 4.6.0
-- clap_derive 4.6.1
-- clap_lex 1.1.0
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/clap-rs/clap
-Copyright / attribution notice:
-  Copyright (c) Individual contributors
-Year status: No year stated in the upstream LICENSE-MIT file; preserve the upstream notice as written.
-Additional notes: crates.io ownership is by clap-rs / rust-cli maintainers depending on crate; notices are repo-level.
-
-2. rust-cli / anstyle terminal styling crates
-
-Crates:
-- anstream 1.0.0
-- anstyle 1.0.14
-- anstyle-parse 1.0.0
-- anstyle-query 1.1.5
-- anstyle-wincon 3.0.11
-- colorchoice 1.0.5
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/rust-cli/anstyle
-Copyright / attribution notice:
-  Copyright (c) Individual contributors
-Year status: No year stated in the upstream LICENSE-MIT files; preserve the upstream notice as written.
-Additional notes: Maintained/published in the rust-cli/anstyle workspace.
-
-3. polyfill-rs crates
-
-Crates:
-- is_terminal_polyfill 1.70.2
-- once_cell_polyfill 1.70.2
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/polyfill-rs/is_terminal_polyfill ; https://github.com/polyfill-rs/once_cell_polyfill
-Copyright / attribution notice:
-  Copyright (c) Individual contributors
-Year status: No year stated in the upstream LICENSE-MIT file checked for is_terminal_polyfill; once_cell_polyfill follows the same project licensing pattern. Preserve upstream notices as written.
-Additional notes: Polyfill crates used by terminal styling dependencies.
-
-4. utf8parse / Alacritty VTE parser
-
-Crates:
-- utf8parse 0.2.2
-
-Upstream license expression: Apache-2.0 OR MIT
-Selected license basis for this distribution: MIT
-Repository: https://github.com/alacritty/vte
-Copyright / attribution notice:
-  Copyright (c) 2016 Joe Wilm
-Year status: Year stated: 2016.
-Additional notes: Repository-level LICENSE-MIT notice.
-
-5. windows-rs / Microsoft Windows bindings
-
-Crates:
-- windows 0.62.2
-- windows-collections 0.3.2
-- windows-core 0.62.2
-- windows-future 0.3.2
-- windows-implement 0.60.2
-- windows-interface 0.59.3
-- windows-link 0.2.1
-- windows-numerics 0.3.1
-- windows-result 0.4.1
-- windows-strings 0.5.1
-- windows-sys 0.61.2
-- windows-threading 0.2.1
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/microsoft/windows-rs
-Copyright / attribution notice:
-  Copyright (c) Microsoft Corporation.
-Year status: No year stated in the upstream license-mit file; preserve the upstream notice as written.
-Additional notes: Microsoft windows-rs crate family.
-
-6. dtolnay procedural macro crates
-
-Crates:
-- proc-macro2 1.0.106
-- quote 1.0.46
-- syn 2.0.118
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/dtolnay/proc-macro2 ; https://github.com/dtolnay/quote ; https://github.com/dtolnay/syn
-Copyright / attribution notice:
-  No explicit copyright line is present in the upstream LICENSE-MIT files checked.
-Year status: No year stated; do not invent one.
-Additional notes: Authored/maintained by David Tolnay and contributors; upstream MIT files begin with the permission grant rather than a copyright line.
-
-7. unicode-ident
-
-Crates:
-- unicode-ident 1.0.24
-
-Upstream license expression: (MIT OR Apache-2.0) AND Unicode-3.0
-Selected license basis for this distribution: MIT AND Unicode-3.0
-Repository: https://github.com/dtolnay/unicode-ident
-Copyright / attribution notice:
-  MIT branch: no explicit copyright line present in the upstream LICENSE-MIT file. Unicode branch: Copyright © 1991-2023 Unicode, Inc.
-Year status: MIT branch: no year stated. Unicode-3.0 branch: years stated: 1991-2023.
-Additional notes: Unicode-3.0 remains mandatory because the upstream expression uses AND.
-
-8. BurntSushi string-search crates
-
-Crates:
-- aho-corasick 1.1.4
-- memchr 2.8.2
-
-Upstream license expression: Unlicense OR MIT
-Selected license basis for this distribution: MIT
-Repository: https://github.com/BurntSushi/aho-corasick ; https://github.com/BurntSushi/memchr
-Copyright / attribution notice:
-  Copyright (c) 2015 Andrew Gallant
-Year status: Year stated: 2015.
-Additional notes: MIT elected instead of Unlicense for conventional compliance handling.
-
-9. bitflags
-
-Crates:
-- bitflags 2.13.0
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/bitflags/bitflags
-Copyright / attribution notice:
-  Copyright (c) 2014 The Rust Project Developers
-Year status: Year stated: 2014.
-Additional notes: Target-specific dependency pulled in through platform crates.
-
-10. strsim / RapidFuzz string similarity crate
-
-Crates:
-- strsim 0.11.1
-
-Upstream license expression: MIT
-Selected license basis for this distribution: MIT
-Repository: https://github.com/rapidfuzz/strsim-rs
-Copyright / attribution notice:
-  Copyright (c) 2015 Danny Guo; Copyright (c) 2016 Titus Wormer; Copyright (c) 2018 Akash Kurdekar
-Year status: Years stated: 2015, 2016, 2018.
-Additional notes: Single-license MIT crate; no election needed.
-
-11. heck case-conversion crate
-
-Crates:
-- heck 0.5.0
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/withoutboats/heck
-Copyright / attribution notice:
-  Copyright (c) 2015 The Rust Project Developers
-Year status: Year stated: 2015.
-Additional notes: Used by clap_derive.
-
-12. sysinfo
-
-Crates:
-- sysinfo 0.39.5
-
-Upstream license expression: MIT
-Selected license basis for this distribution: MIT
-Repository: https://github.com/GuillaumeGomez/sysinfo
-Copyright / attribution notice:
-  Copyright (c) 2015 Guillaume Gomez
-Year status: Year stated: 2015.
-Additional notes: Direct dependency in this project.
-
-13. libc / Rust raw platform bindings
-
-Crates:
-- libc 0.2.186
-
-Upstream license expression: MIT OR Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/rust-lang/libc
-Copyright / attribution notice:
-  Copyright (c) The Rust Project Developers
-Year status: No year stated in the upstream LICENSE-MIT file checked; preserve the upstream notice as written.
-Additional notes: Rust Project libc crate.
-
-14. ntapi
-
-Crates:
-- ntapi 0.4.3
-
-Upstream license expression: Apache-2.0 OR MIT
-Selected license basis for this distribution: MIT
-Repository: https://github.com/MSxDOS/ntapi
-Copyright / attribution notice:
-  No explicit copyright line is present in the upstream LICENSE-MIT file checked.
-Year status: No year stated; do not invent one.
-Additional notes: Windows NT API bindings dependency.
-
-15. winapi and winapi GNU import crates
-
-Crates:
-- winapi 0.3.9
-- winapi-i686-pc-windows-gnu 0.4.0
-- winapi-x86_64-pc-windows-gnu 0.4.0
-
-Upstream license expression: MIT/Apache-2.0
-Selected license basis for this distribution: MIT
-Repository: https://github.com/retep998/winapi-rs
-Copyright / attribution notice:
-  Copyright (c) 2015-2018 The winapi-rs Developers
-Year status: Years stated: 2015-2018.
-Additional notes: Import crates are part of the winapi-rs ecosystem / target support path.
-
-16. objc2 / dispatch2 Apple framework binding crates
-
-Crates:
-- dispatch2 0.3.1
-- objc2 0.6.4
-- objc2-core-foundation 0.3.2
-- objc2-encode 4.1.0
-- objc2-foundation 0.3.2
-- objc2-io-kit 0.3.2
-- objc2-open-directory 0.3.2
-
-Upstream license expression: objc2, objc2-foundation, objc2-encode: MIT. dispatch2 and generated framework crates: MIT OR Apache-2.0 OR Zlib.
-Selected license basis for this distribution: MIT
-Repository: https://github.com/madsmtm/objc2
-Copyright / attribution notice:
-  The v0.6.4 project LICENSE.md describes the applicable MIT / tri-license scheme but does not provide a crate-specific MIT copyright line in the packaged crate files checked.
-Year status: No exact year stated for the uploaded Cargo.lock versions in the checked package notices; do not invent one.
-Additional notes: These are target-specific Apple/Objective-C dependencies pulled in through sysinfo. The upstream license note also warns that the generated framework crates are derived from Apple SDKs, so practical use assumes Xcode SDK terms as applicable.
-
-
-SOURCE METADATA REFERENCES
-===============================================================================
-
-Primary project inputs:
-- /mnt/data/Cargo.toml
-- /mnt/data/Cargo.lock
-
-External references checked while preparing the copyright-year addendum:
-- https://raw.githubusercontent.com/clap-rs/clap/v4.6.1/LICENSE-MIT
-- https://raw.githubusercontent.com/rust-cli/anstyle/main/crates/anstream/LICENSE-MIT
-- https://raw.githubusercontent.com/rust-cli/anstyle/main/crates/anstyle/LICENSE-MIT
-- https://raw.githubusercontent.com/rust-cli/anstyle/main/crates/anstyle-parse/LICENSE-MIT
-- https://raw.githubusercontent.com/rust-cli/anstyle/main/crates/anstyle-query/LICENSE-MIT
-- https://raw.githubusercontent.com/rust-cli/anstyle/main/crates/anstyle-wincon/LICENSE-MIT
-- https://raw.githubusercontent.com/rust-cli/anstyle/main/crates/colorchoice/LICENSE-MIT
-- https://docs.rs/crate/is_terminal_polyfill/1.70.2/source/LICENSE-MIT
-- https://docs.rs/crate/is_terminal_polyfill/1.70.2/source/Cargo.toml.orig
-- https://raw.githubusercontent.com/alacritty/vte/master/LICENSE-MIT
-- https://docs.rs/crate/windows/0.62.2/source/license-mit
-- https://raw.githubusercontent.com/dtolnay/proc-macro2/master/LICENSE-MIT
-- https://raw.githubusercontent.com/dtolnay/quote/master/LICENSE-MIT
-- https://raw.githubusercontent.com/dtolnay/syn/master/LICENSE-MIT
-- https://docs.rs/crate/unicode-ident/1.0.24/source/LICENSE-MIT
-- https://docs.rs/crate/unicode-ident/1.0.24/source/LICENSE-UNICODE
-- https://raw.githubusercontent.com/BurntSushi/aho-corasick/master/LICENSE-MIT
-- https://raw.githubusercontent.com/BurntSushi/memchr/master/LICENSE-MIT
-- https://raw.githubusercontent.com/bitflags/bitflags/main/LICENSE-MIT
-- https://raw.githubusercontent.com/rapidfuzz/strsim-rs/main/LICENSE
-- https://raw.githubusercontent.com/withoutboats/heck/master/LICENSE-MIT
-- https://raw.githubusercontent.com/GuillaumeGomez/sysinfo/master/LICENSE
-- https://raw.githubusercontent.com/rust-lang/libc/master/LICENSE-MIT
-- https://raw.githubusercontent.com/MSxDOS/ntapi/master/LICENSE-MIT
-- https://raw.githubusercontent.com/retep998/winapi-rs/0.3/LICENSE-MIT
-- https://raw.githubusercontent.com/madsmtm/objc2/objc2-0.6.4/LICENSE.md
-
-
-MIT LICENSE PERMISSION NOTICE
-===============================================================================
-
-The component-specific copyright notices to preserve are listed above. The MIT
-permission notice applicable to selected MIT-licensed components is:
+THIRD-PARTY LICENSE NOTICES
+===========================
+
+portcull includes the third-party Rust crates listed below. Their license
+notices are reproduced in full as required by their licenses.
+
+This file is generated by cargo-about from about.hbs and about.toml.
+Do not edit it by hand; regenerate it with:
+
+    cargo about generate about.hbs -o CREDITS.txt
+
+Overview
+--------
+MIT License (44)
+Unicode License v3 (1)
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - bitflags 2.13.0
+
+Copyright (c) 2014 The Rust Project Developers
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - heck 0.5.0
+
+Copyright (c) 2015 The Rust Project Developers
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - winapi 0.3.9
+
+Copyright (c) 2015-2018 The winapi-rs Developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
@@ -551,42 +110,372 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-UNICODE LICENSE V3 - REQUIRED FOR unicode-ident
-===============================================================================
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - utf8parse 0.2.2
+
+Copyright (c) 2016 Joe Wilm
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - anstream 1.0.0
+  - anstyle-parse 1.0.0
+  - anstyle-query 1.1.5
+  - anstyle-wincon 3.0.11
+  - anstyle 1.0.14
+  - clap 4.6.1
+  - clap_builder 4.6.0
+  - clap_derive 4.6.1
+  - clap_lex 1.1.0
+  - colorchoice 1.0.5
+  - is_terminal_polyfill 1.70.2
+  - once_cell_polyfill 1.70.2
+
+Copyright (c) Individual contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - libc 0.2.186
+
+Copyright (c) The Rust Project Developers
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - objc2-core-foundation 0.3.2
+  - objc2-encode 4.1.0
+  - objc2-foundation 0.3.2
+  - objc2-io-kit 0.3.2
+  - objc2-open-directory 0.3.2
+  - objc2 0.6.4
+  - windows-collections 0.3.2
+  - windows-core 0.62.2
+  - windows-future 0.3.2
+  - windows-implement 0.60.2
+  - windows-interface 0.59.3
+  - windows-link 0.2.1
+  - windows-numerics 0.3.1
+  - windows-result 0.4.1
+  - windows-strings 0.5.1
+  - windows-sys 0.61.2
+  - windows-threading 0.2.1
+  - windows 0.62.2
+
+MIT License
+
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - proc-macro2 1.0.106
+  - quote 1.0.46
+  - syn 2.0.118
+  - unicode-ident 1.0.24
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - ntapi 0.4.3
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"),to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - memchr 2.8.2
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Andrew Gallant
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - strsim 0.11.1
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Danny Guo
+Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
+Copyright (c) 2018 Akash Kurdekar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - sysinfo 0.39.5
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Guillaume Gomez
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+================================================================================
+MIT License
+================================================================================
+
+Used by:
+  - portcull 0.2.0
+
+The MIT License (MIT)
+Copyright © 2026 chris-3345
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+Unicode License v3
+================================================================================
+
+Used by:
+  - unicode-ident 1.0.24
 
 UNICODE LICENSE V3
+
 COPYRIGHT AND PERMISSION NOTICE
 
 Copyright © 1991-2023 Unicode, Inc.
 
-NOTICE TO USER: Carefully read the following legal agreement. BY DOWNLOADING,
-INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR SOFTWARE, YOU
-UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE TERMS AND CONDITIONS
-OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY,
-DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
+NOTICE TO USER: Carefully read the following legal agreement. BY
+DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
+SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
+DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-data files and any associated documentation (the "Data Files") or software and
-any associated documentation (the "Software") to deal in the Data Files or
-Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, and/or sell copies of the Data Files or
-Software, and to permit persons to whom the Data Files or Software are furnished
-to do so, provided that either (a) this copyright and permission notice appear
-with all copies of the Data Files or Software, or (b) this copyright and
-permission notice appear in associated Documentation.
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of data files and any associated documentation (the "Data Files") or
+software and any associated documentation (the "Software") to deal in the
+Data Files or Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, and/or sell
+copies of the Data Files or Software, and to permit persons to whom the
+Data Files or Software are furnished to do so, provided that either (a)
+this copyright and permission notice appear with all copies of the Data
+Files or Software, or (b) this copyright and permission notice appear in
+associated Documentation.
 
-THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD
-PARTY RIGHTS.
+THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+THIRD PARTY RIGHTS.
 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE
-LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY
-DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
+BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
+FILES OR SOFTWARE.
 
-Except as contained in this notice, the name of a copyright holder shall not be
-used in advertising or otherwise to promote the sale, use or other dealings in
-these Data Files or Software without prior written authorization of the copyright
-holder.
+Except as contained in this notice, the name of a copyright holder shall
+not be used in advertising or otherwise to promote the sale, use or other
+dealings in these Data Files or Software without prior written
+authorization of the copyright holder.
+
