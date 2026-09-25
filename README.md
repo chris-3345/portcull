@@ -72,6 +72,25 @@ For the above to work, make sure ~/.cargo/bin is in your PATH. If the command wo
 ## Special Features
 If `portcull` detects you are trying to kill `ollama`, it remins you that Ollama will immediately restart itself anyway (but it still *attempts* to kill it for you).
 
+## FAQ
+
+### Q. "Why is Claude in your Contributors?! I hate AI!!! I'm going to self destructjdiosajf90e3!(!!!)((93058743783$^#&@*!!!!"
+A. I use AI for commits. I use it when a critical bug is found and I don't have the time to fix it that instant. I use Claude to create a PR and then I review it and accept the PR if it's fine.  
+If you don't like the policy that you can see in [CONTRIBUTING.md](CONTRIBUTING.md), then this repo probably isn't for you. 
+
+### Q. "Why does it say no processes are found when I know that something is using that port?"
+A. Try using `sudo` on *NIX or an elevated command prompt or PowerShell on Windows. Unprivileged `lsof`/`netstat` can't see other users' sockets.  
+
+### Q. Why is it telling me to run it with `sudo` if I'm already root?
+A. I need to check user ID properly so this'll be fixed soon (hopefully) by adding `libc`.
+
+### Q. "Does this work on Windows?"
+A. Yes; it uses `netstat` instead of `lsof` on Windows.
+
+### Q. "Why can't I kill the process running on 11434?"
+A. It's probably Ollama; if it is, run `systemctl stop ollama` or quit the app on macOS/Windows.
+
+
 ## License
 [MIT License](LICENSE)
 
