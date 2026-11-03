@@ -74,7 +74,7 @@ If `portcull` detects you are trying to kill `ollama`, it remins you that Ollama
 
 ## FAQ
 
-### Q. "Why is Claude in your Contributors?! I hate AI!!! I'm going to self destructjdiosajf90e3!(!!!)((93058743783$^#&@*!!!!"
+### Q. "Why is Claude in your Contributors?!
 A. I use AI for commits. I use it when a critical bug is found and I don't have the time to fix it that instant. I use Claude to create a PR and then I review it and accept the PR if it's fine.  
 If you don't like the policy that you can see in [CONTRIBUTING.md](CONTRIBUTING.md), then this repo probably isn't for you. 
 
